@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import br.com.icc.stockquotemanager.model.Quote;
+import lombok.Getter;
 
+@Getter
 public class StockQuoteDto {
 
 	private String id;
@@ -22,21 +24,14 @@ public class StockQuoteDto {
 		this.quotes = quotes;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public Map<String, String> getValueMap() {
-		return quotes;
-	}
-
 	public void mapQuotes(List<Quote> quotes) {
 		quotes.forEach(quote -> {
 
-			String date = quote.getDate().toLocalDate().toString();
+			String date = quote.getDate().toString();
 			String value = quote.getValue().toBigInteger().toString();
 
 			this.quotes.put(date, value);
 		});
 	}
+
 }
