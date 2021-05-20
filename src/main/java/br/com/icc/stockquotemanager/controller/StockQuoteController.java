@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.icc.stockquotemanager.dto.StockDto;
-import br.com.icc.stockquotemanager.dto.StockQuoteDto;
-import br.com.icc.stockquotemanager.form.StockQuoteForm;
 import br.com.icc.stockquotemanager.model.Quote;
+import br.com.icc.stockquotemanager.model.dto.StockDto;
+import br.com.icc.stockquotemanager.model.dto.StockQuoteDto;
+import br.com.icc.stockquotemanager.model.form.StockQuoteForm;
 import br.com.icc.stockquotemanager.repository.QuoteRepository;
 import br.com.icc.stockquotemanager.service.QuoteService;
 import br.com.icc.stockquotemanager.service.StockService;
@@ -26,14 +26,14 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/quotes")
 @Slf4j
-public class QuoteController {
+public class StockQuoteController {
 
 	private QuoteRepository quoteRepository;
 	private StockService stockService;
 	private QuoteService quoteService;
 
 	@Autowired
-	public QuoteController(QuoteRepository quoteRepository, StockService stockService, QuoteService quoteService) {
+	public StockQuoteController(QuoteRepository quoteRepository, StockService stockService, QuoteService quoteService) {
 		log.info("Dependency injection in repositories and services");
 		this.quoteRepository = quoteRepository;
 		this.stockService = stockService;
@@ -46,7 +46,7 @@ public class QuoteController {
 
 		StockDto stock = stockService.getById(stockId);
 		if (stock == null) {
-			log.warn("The inserted stockId was not found in the database");
+			log.warn("The inserted stockId was not found in the database, consider inserting one that exists");
 			return ResponseEntity.status(404).body(null);
 
 		} else {
@@ -69,14 +69,17 @@ public class QuoteController {
 			stocksQuotesDto.add(new StockQuoteDto(stock.getId(), quotes));
 		});
 
-		return ResponseEntity.status(201).body(stocksQuotesDto);
+		System.out.println("\u001B[31mThis text is red!\u001B[0m");
+		return ResponseEntity.status(200).body(stocksQuotesDto);
 	}
 
 	@PostMapping
 	ResponseEntity<StockQuoteDto> createAStockQuote(@RequestBody @Valid StockQuoteForm form) {
 		log.info("Create a  stockQuote");
+		log.debug("Search for the Id provided by the form request body in the stock service");
 		StockDto stockDto = stockService.getById(form.getId());
 		if (stockDto == null) {
+			log.warn("There is no stock with this id in the database");
 			return ResponseEntity.status(404).body(null);
 
 		}

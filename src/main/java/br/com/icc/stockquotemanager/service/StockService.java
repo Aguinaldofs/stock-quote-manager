@@ -11,7 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import br.com.icc.stockquotemanager.dto.StockDto;
+import br.com.icc.stockquotemanager.model.dto.StockDto;
 
 @Service
 public class StockService {

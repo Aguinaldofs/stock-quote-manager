@@ -1,4 +1,4 @@
-package br.com.icc.stockquotemanager.form;
+package br.com.icc.stockquotemanager.model.form;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -26,11 +26,6 @@ public class StockQuoteForm {
 			quoteList.add(newQuote);
 			System.out.println("date: " + newQuote.getDate());
 		}
-		quoteList.forEach(item -> {
-			System.out.println(item.getDate());
-			System.out.println(item.getValue());
-			System.out.println(item.getStockId());
-		});
 		return quoteList;
 	}
 
