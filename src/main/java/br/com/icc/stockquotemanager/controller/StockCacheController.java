@@ -21,7 +21,7 @@ public class StockCacheController {
 	@Caching(evict = { @CacheEvict(value = "stocks", allEntries = true),
 			@CacheEvict(value = "stock", allEntries = true) })
 	public ResponseEntity<?> resetStockCache() {
-		log.info("Deletes the cache that searches both for one stock and for all stocks");
+		log.info("\u001b[42;1mDeletes the cache that searches both for one stock and for all stocks\u001b[0m");
 		return ResponseEntity.status(200).build();
 
 	}

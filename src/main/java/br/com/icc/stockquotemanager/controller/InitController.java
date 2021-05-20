@@ -19,7 +19,7 @@ public class InitController {
 	@EventListener(ApplicationReadyEvent.class)
 	private void OnProjectInit() {
 		log.info(
-				"Register the application when starting up to receive notifications of possible changes in the external api's database");
+				"\u001b[42mRegister the application when starting up to receive notifications of possible changes in the external api's database\u001b[0m");
 		stockService.addNotification();
 	}
 

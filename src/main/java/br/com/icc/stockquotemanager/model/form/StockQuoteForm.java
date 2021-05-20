@@ -21,13 +21,14 @@ public class StockQuoteForm {
 	Map<String, String> quotes;
 
 	public List<Quote> toListQuote() {
-		log.info("Converts a date and value map to a list of quotes");
+		log.info("\u001b[42mConverts a date and value map to a list of quotes\u001b[0m");
 		List<Quote> quoteList = new ArrayList<Quote>();
 		for (Map.Entry<String, String> quote : this.quotes.entrySet()) {
 			Quote newQuote = new Quote(LocalDate.parse(quote.getKey()), new BigDecimal(quote.getValue()), this.id);
 			quoteList.add(newQuote);
 		}
-		log.debug("Conversion of the map to a list of quotes finished");
+
+		log.debug("\u001b[45mConversion of the map to a list of quotes finished\u001b[0m");
 		return quoteList;
 	}
 

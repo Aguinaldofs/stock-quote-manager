@@ -36,18 +36,19 @@ public class StockQuoteController {
 
 	@GetMapping("/{stockId}")
 	public ResponseEntity<StockQuoteDto> readAStockQuoteById(@PathVariable String stockId) {
-		log.info("Search the stock quote for stockId");
+		log.info("\u001b[42mSearch the stock quote for stockId\u001b[0m");
 
 		StockDto stock = stockService.getById(stockId);
 		if (stock == null) {
-			log.warn("The inserted stockId was not found in the database, consider inserting one that exists");
+			log.warn(
+					"\u001b[43mThe inserted stockId was not found in the database, consider inserting one that exists\u001b[0m");
 			return ResponseEntity.status(404).body(null);
 
 		} else {
 
 			List<Quote> findById = quoteService.findByStockId(stockId);
 			StockQuoteDto stockQuoteDto = new StockQuoteDto(stockId, findById);
-			log.debug("Finished searching for stockQuote by id!");
+			log.debug("\u001b[45mFinished searching for stockQuote by id!\u001b[0m");
 			return ResponseEntity.status(200).body(stockQuoteDto);
 
 		}
@@ -56,23 +57,23 @@ public class StockQuoteController {
 
 	@GetMapping
 	ResponseEntity<List<StockQuoteDto>> readAllStockQuotes() {
-		log.info("Search for all stockQuotes");
+		log.info("\u001b[42mSearch for all stockQuotes\u001b[0m");
 		List<StockDto> stocks = stockService.getAll();
 		List<StockQuoteDto> stocksQuotesDto = new ArrayList<StockQuoteDto>();
 		stocks.forEach(stock -> {
 			List<Quote> quotes = quoteService.findByStockId(stock.getId());
 			stocksQuotesDto.add(new StockQuoteDto(stock.getId(), quotes));
 		});
-		log.debug("Finished searching for all stocks and quotes!");
+		log.debug("\u001b[45mFinished searching for all stocks and quotes!\u001b[0m");
 		return ResponseEntity.status(200).body(stocksQuotesDto);
 	}
 
 	@PostMapping
 	ResponseEntity<StockQuoteDto> createAStockQuote(@RequestBody @Valid StockQuoteForm form) {
-		log.info("Create a  stockQuote");
+		log.info("\u001b[42mCreate a  stockQuote\u001b[0m");
 		StockDto stockDto = stockService.getById(form.getId());
 		if (stockDto == null) {
-			log.warn("There is no stock with this id in the database");
+			log.warn("\u001b[43mThere is no stock with this id in the database\u001b[0m");
 			return ResponseEntity.status(404).body(null);
 
 		}
@@ -80,7 +81,7 @@ public class StockQuoteController {
 		quoteRepository.saveAll(quotes);
 		List<Quote> findById = quoteRepository.findByStockId(form.getId());
 		StockQuoteDto stockQuoteDto = new StockQuoteDto(form.getId(), findById);
-		log.debug("Finished creating a Stocksquote!");
+		log.debug("\u001b[45mFinished creating a Stocksquote!\u001b[0m");
 		return ResponseEntity.status(201).body(stockQuoteDto);
 	}
 }

@@ -27,7 +27,7 @@ public class StockService {
 
 	@Cacheable(value = "stockList")
 	public List<StockDto> getAll() {
-		log.info("Search for all stocks");
+		log.info("\u001b[42mSearch for all stocks\u001b[0m");
 		StockDto[] stocks = restTemplate.getForObject(url + "/stock", StockDto[].class);
 
 		return Arrays.asList(stocks);
@@ -35,7 +35,7 @@ public class StockService {
 
 	@Cacheable(value = "stock")
 	public StockDto getById(String id) {
-		log.info("Search for a specific stock");
+		log.info("\u001b[42mSearch for a specific stock\u001b[0m");
 		StockDto stock = restTemplate.getForObject(url + "/stock/" + id, StockDto.class);
 		return stock;
 	}

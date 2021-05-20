@@ -22,15 +22,13 @@ public class StockQuoteDto {
 	}
 
 	public void mapQuotes(List<Quote> quotes) {
-		log.info(
-				"Value and date were created separately in the model thinking about future features that need to use them separately");
 		quotes.forEach(quote -> {
 
 			String date = quote.getDate().toString();
 			String value = quote.getValue().toBigInteger().toString();
 
 			this.quotes.put(date, value);
-			log.debug("Date: " + date + " Value: " + value);
+			log.debug("\u001b[42mDate: " + date + " Value: " + value + "\u001b[0m");
 
 		});
 	}
