@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import br.com.icc.stockquotemanager.model.dto.StockDto;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class StockService {
 
 	private String url = "http://localhost:8080";
@@ -25,12 +27,15 @@ public class StockService {
 
 	@Cacheable(value = "stockList")
 	public List<StockDto> getAll() {
+		log.info("Search for all stocks");
 		StockDto[] stocks = restTemplate.getForObject(url + "/stock", StockDto[].class);
+
 		return Arrays.asList(stocks);
 	}
 
 	@Cacheable(value = "stock")
 	public StockDto getById(String id) {
+		log.info("Search for a specific stock");
 		StockDto stock = restTemplate.getForObject(url + "/stock/" + id, StockDto.class);
 		return stock;
 	}

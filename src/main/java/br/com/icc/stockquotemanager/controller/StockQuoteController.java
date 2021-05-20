@@ -21,24 +21,18 @@ import br.com.icc.stockquotemanager.model.form.StockQuoteForm;
 import br.com.icc.stockquotemanager.repository.QuoteRepository;
 import br.com.icc.stockquotemanager.service.QuoteService;
 import br.com.icc.stockquotemanager.service.StockService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/quotes")
 @Slf4j
+@AllArgsConstructor(onConstructor = @__({ @Autowired }))
 public class StockQuoteController {
 
 	private QuoteRepository quoteRepository;
 	private StockService stockService;
 	private QuoteService quoteService;
-
-	@Autowired
-	public StockQuoteController(QuoteRepository quoteRepository, StockService stockService, QuoteService quoteService) {
-		log.info("Dependency injection in repositories and services");
-		this.quoteRepository = quoteRepository;
-		this.stockService = stockService;
-		this.quoteService = quoteService;
-	}
 
 	@GetMapping("/{stockId}")
 	public ResponseEntity<StockQuoteDto> readAStockQuoteById(@PathVariable String stockId) {
@@ -53,6 +47,7 @@ public class StockQuoteController {
 
 			List<Quote> findById = quoteService.findByStockId(stockId);
 			StockQuoteDto stockQuoteDto = new StockQuoteDto(stockId, findById);
+			log.debug("Finished searching for stockQuote by id!");
 			return ResponseEntity.status(200).body(stockQuoteDto);
 
 		}
@@ -68,15 +63,13 @@ public class StockQuoteController {
 			List<Quote> quotes = quoteService.findByStockId(stock.getId());
 			stocksQuotesDto.add(new StockQuoteDto(stock.getId(), quotes));
 		});
-
-		System.out.println("\u001B[31mThis text is red!\u001B[0m");
+		log.debug("Finished searching for all stocks and quotes!");
 		return ResponseEntity.status(200).body(stocksQuotesDto);
 	}
 
 	@PostMapping
 	ResponseEntity<StockQuoteDto> createAStockQuote(@RequestBody @Valid StockQuoteForm form) {
 		log.info("Create a  stockQuote");
-		log.debug("Search for the Id provided by the form request body in the stock service");
 		StockDto stockDto = stockService.getById(form.getId());
 		if (stockDto == null) {
 			log.warn("There is no stock with this id in the database");
@@ -87,6 +80,7 @@ public class StockQuoteController {
 		quoteRepository.saveAll(quotes);
 		List<Quote> findById = quoteRepository.findByStockId(form.getId());
 		StockQuoteDto stockQuoteDto = new StockQuoteDto(form.getId(), findById);
+		log.debug("Finished creating a Stocksquote!");
 		return ResponseEntity.status(201).body(stockQuoteDto);
 	}
 }

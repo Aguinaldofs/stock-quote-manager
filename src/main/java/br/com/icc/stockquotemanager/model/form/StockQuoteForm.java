@@ -10,22 +10,24 @@ import javax.validation.constraints.NotNull;
 
 import br.com.icc.stockquotemanager.model.Quote;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
+@Slf4j
+@NotNull
 public class StockQuoteForm {
 
-	@NotNull
 	private String id;
-	@NotNull
 	Map<String, String> quotes;
 
 	public List<Quote> toListQuote() {
+		log.info("Converts a date and value map to a list of quotes");
 		List<Quote> quoteList = new ArrayList<Quote>();
 		for (Map.Entry<String, String> quote : this.quotes.entrySet()) {
 			Quote newQuote = new Quote(LocalDate.parse(quote.getKey()), new BigDecimal(quote.getValue()), this.id);
 			quoteList.add(newQuote);
-			System.out.println("date: " + newQuote.getDate());
 		}
+		log.debug("Conversion of the map to a list of quotes finished");
 		return quoteList;
 	}
 
